@@ -1,8 +1,8 @@
-import { value DEFAULT_PAGE_TITLE } from '@/utils/consts';
-import { value NextPage } from 'next';
+import { DEFAULT_PAGE_TITLE } from '@/utils/consts';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import { value FaChevronLeft } from 'react-icons/fa';
+import { FaChevronLeft } from 'react-icons/fa';
 //
 const Custom404Page: NextPage = () => {
 	return (

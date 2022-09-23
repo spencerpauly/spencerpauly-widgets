@@ -1,6 +1,6 @@
-import { value getBlankLayout } from '@/layouts/BlankLayout';
-import { value NextPageWithLayout } from '@/types/page';
-import { value Heading, value Link as ChakraLink } from '@chakra-ui/react';
+import { getBlankLayout } from '@/layouts/BlankLayout';
+import { NextPageWithLayout } from '@/types/page';
+import { Heading, Link as ChakraLink } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
 
