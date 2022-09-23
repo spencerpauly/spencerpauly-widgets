@@ -1,5 +1,5 @@
 import { NextSeo } from 'next-seo';
-import Head from 'next/head';
+import Script from 'next/script';
 import React from 'react';
 
 export function SEO() {
@@ -15,9 +15,7 @@ export function SEO() {
 					},
 				]}
 			/>
-			<Head>
-				<script src='/static/iframeResize.contentWindow.min.js' />
-			</Head>
+			<Script src='/static/iframeResize.contentWindow.min.js' />
 		</>
 	);
 }
