@@ -1,4 +1,4 @@
-import { StatsEntry } from '@/modules/spotify-stats/SpotifyStatsPage';
+import { StatsEntry } from '@/modules/spotify-stats/SpotifyStatsChart';
 import { formatNumberForDisplay } from '@/utils/formatNumberForDisplay';
 
 export interface QuerySettings {
@@ -36,19 +36,20 @@ const convertTracksToStats = (tracks: any) => {
 		title: item.name,
 		subTitle: item.artists.map((a: any) => a.name).join(', '),
 		image: item.album.images[0].url,
+		href: item.external_urls.spotify,
 	}));
 
 	return stats;
 };
 
 const convertArtistsToStats = (artists: any) => {
-	console.log('spee', artists);
 	const stats: StatsEntry[] = artists.map((item: any, index: number) => ({
 		id: item.id,
 		rank: index + 1,
 		title: item.name,
 		subTitle: formatNumberForDisplay(item.followers.total) + ' followers',
 		image: item.id !== '5K4W6rqBFWDnAN6FQUkS6x' ? item.images[0].url : '/static/content/ye.jpeg',
+		href: item.external_urls.spotify,
 	}));
 
 	return stats;

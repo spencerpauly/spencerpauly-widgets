@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .no-ring {
+        @apply focus:ring-0 focus:ring-offset-0;
+    }
+}

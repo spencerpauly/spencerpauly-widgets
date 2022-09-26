@@ -1,13 +1,21 @@
 import { NextPageWithLayout } from '@/types/page';
 import { SKELETON_STATS } from '@/utils/consts';
-import { Heading } from '@chakra-ui/layout';
+import { Heading, Link } from '@chakra-ui/layout';
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton';
 import { Table, TableContainer, Tbody } from '@chakra-ui/table';
 import React from 'react';
-import { StatsEntry } from './SpotifyStatsPage';
 import StatShowcaseItem from './stats-chart/StatShowcaseItem';
 import StatTableItem from './stats-chart/StatTableItem';
 
+export interface StatsEntry {
+	id: string;
+	rank: number;
+	title: string;
+	subTitle: string;
+	image: string;
+	href: string;
+	isSkeleton?: boolean;
+}
 interface Props {
 	stats?: StatsEntry[];
 }
@@ -36,8 +44,10 @@ const SpotifyStatsChart: NextPageWithLayout<Props> = ({ stats = SKELETON_STATS }
 					<div className='text-5xl font-bold'>#{stats[0]?.rank}</div>
 
 					<div className='py-6'>
-						<Heading as='h2' size='xl' className=''>
-							{stats[0]?.title}
+						<Heading as='h2' size='xl'>
+							<Link href={stats[0]?.href} isExternal>
+								{stats[0]?.title}
+							</Link>
 						</Heading>
 						<div className='font-bold text-gray-400 uppercase text-md'>By {stats[0]?.subTitle}</div>
 					</div>

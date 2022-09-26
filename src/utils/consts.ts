@@ -1,4 +1,4 @@
-import { StatsEntry } from '@/modules/spotify-stats/SpotifyStatsPage';
+import { StatsEntry } from '@/modules/spotify-stats/SpotifyStatsChart';
 
 export const DEFAULT_PAGE_TITLE = 'Spencer Pauly | Widgets';
 

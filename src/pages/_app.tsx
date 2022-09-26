@@ -16,14 +16,18 @@ import 'swiper/swiper.min.css';
 
 const queryClient = new QueryClient();
 
-const theme = extendTheme(
-	withDefaultProps({
+const theme = extendTheme({
+	...withDefaultProps({
 		defaultProps: {
 			speed: 2,
 		},
 		components: ['Skeleton', 'SkeletonText', 'SkeletonCircle'],
-	})
-);
+	}),
+	components: {
+		Link: { baseStyle: { _focus: { boxShadow: 'none' } } },
+		Button: { baseStyle: { _focus: { boxShadow: 'none' } } },
+	},
+});
 
 const progress = new ProgressBar({
 	size: 2,

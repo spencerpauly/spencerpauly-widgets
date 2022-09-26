@@ -1,6 +1,7 @@
+import { Link } from '@chakra-ui/layout';
 import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/skeleton';
 import { Td, Tr } from '@chakra-ui/table';
-import { StatsEntry } from '../SpotifyStatsPage';
+import { StatsEntry } from '../SpotifyStatsChart';
 
 interface Props {
 	statsEntry: StatsEntry;
@@ -39,7 +40,9 @@ const StatTableItem = ({ statsEntry }: Props) => {
 			</Td>
 			<Td className='font-bold'>
 				<b>#{statsEntry.rank}</b>
-				<span className='pl-2'>{statsEntry.title}</span>
+				<Link className='ml-2' href={statsEntry.href} isExternal>
+					{statsEntry.title}
+				</Link>
 			</Td>
 			<Td className='font-bold text-gray-400' textAlign='right'>
 				{statsEntry.subTitle}
