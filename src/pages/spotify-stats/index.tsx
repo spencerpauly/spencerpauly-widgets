@@ -9,6 +9,7 @@ import {
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
+	ModalOverlay,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
@@ -21,7 +22,7 @@ const SpotifyStats: NextPageWithLayout<Props> = () => {
 	return (
 		<>
 			<Modal isCentered isOpen={true} onClose={() => {}}>
-				{/* <ModalOverlay /> */}
+				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Modal Title</ModalHeader>
 					<ModalCloseButton />
