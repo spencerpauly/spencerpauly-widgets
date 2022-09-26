@@ -1,3 +1,4 @@
+import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/skeleton';
 import { Td, Tr } from '@chakra-ui/table';
 import { StatsEntry } from '../SpotifyStatsPage';
 
@@ -10,8 +11,16 @@ const StatTableItem = ({ statsEntry }: Props) => {
 
 	if (isSkeleton) {
 		return (
-			<Tr>
-				<Td>asda</Td>
+			<Tr className='flex'>
+				<Td>
+					<SkeletonCircle />
+				</Td>
+				<Td className='flex-grow'>
+					<Skeleton className='h-6' />
+				</Td>
+				<Td>
+					<SkeletonText noOfLines={2} className='w-48' />
+				</Td>
 			</Tr>
 		);
 		/*
