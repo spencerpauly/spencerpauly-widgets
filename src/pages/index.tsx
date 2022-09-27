@@ -11,7 +11,7 @@ const Index: NextPageWithLayout<Props> = () => {
 		<div className='container flex flex-col pt-12 mx-auto'>
 			<Heading>Widgets</Heading>
 			<Link href='/spotify-stats/'>
-				<ChakraLink>Spotify Stats App</ChakraLink>
+				<ChakraLink>Spotify Stats App.</ChakraLink>
 			</Link>
 		</div>
 	);
