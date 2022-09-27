@@ -1,6 +1,5 @@
 import { Link } from '@chakra-ui/layout';
 import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/skeleton';
-import { Td, Tr } from '@chakra-ui/table';
 import { StatsEntry } from '../SpotifyStatsChart';
 
 interface Props {
@@ -12,42 +11,35 @@ const StatTableItem = ({ statsEntry }: Props) => {
 
 	if (isSkeleton) {
 		return (
-			<Tr className='flex'>
-				<Td>
+			<div className='flex items-center space-x-4'>
+				<div className='py-1'>
 					<SkeletonCircle />
-				</Td>
-				<Td className='flex-grow'>
-					<Skeleton className='h-6' />
-				</Td>
-				<Td>
-					<SkeletonText noOfLines={2} className='w-48' />
-				</Td>
-			</Tr>
-		);
-		/*
-    			<div className='flex my-2 space-x-4'>
-				<Skeleton className='w-6 h-6 ' borderRadius={4} />
-				<div className='w-full'>
+				</div>
+				<div className='flex-grow'>
 					<Skeleton className='h-6' />
 				</div>
+				<div>
+					<SkeletonText noOfLines={2} className='w-48' />
+				</div>
 			</div>
-      */
+		);
 	}
 	return (
-		<Tr key={statsEntry.id} className='uppercase'>
-			<Td paddingTop={1} paddingBottom={1}>
+		<div
+			key={statsEntry.id}
+			className='flex flex-col items-start justify-between py-1 lg:items-center lg:flex-row'
+		>
+			<div className='flex space-x-4'>
 				<img src={statsEntry.image} className='object-cover w-6 h-6 rounded' />
-			</Td>
-			<Td className='font-bold'>
-				<b>#{statsEntry.rank}</b>
-				<Link className='ml-2' href={statsEntry.href} isExternal>
-					{statsEntry.title}
-				</Link>
-			</Td>
-			<Td className='font-bold text-gray-400' textAlign='right'>
-				{statsEntry.subTitle}
-			</Td>
-		</Tr>
+				<div>
+					<b>#{statsEntry.rank}</b>
+					<Link className='ml-2' href={statsEntry.href} isExternal>
+						{statsEntry.title}
+					</Link>
+				</div>
+			</div>
+			<div className='pl-10 text-sm font-bold text-gray-400'>{statsEntry.subTitle}</div>
+		</div>
 	);
 };
 

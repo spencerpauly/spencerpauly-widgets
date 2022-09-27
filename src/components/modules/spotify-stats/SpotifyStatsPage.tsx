@@ -28,7 +28,7 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 		<>
 			<Modal size='xl' isCentered isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent className='mx-4'>
 					<ModalCloseButton />
 					<ModalHeader className='text-4xl'>
 						Connect Spotify <FaSpotify className='inline text-lg text-green-600 align-text-top' />
@@ -55,13 +55,15 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 				</ModalContent>
 			</Modal>
 			{sessionStatus === 'unauthenticated' && (
-				<Alert status='warning'>
+				<Alert className='break-words' status='warning'>
 					<AlertIcon />
-					You need to be signed in with Spotify to use this app,
-					<Button className='ml-1' onClick={onOpen} variant='link'>
-						click here to sign in
-					</Button>
-					.
+					<p>
+						You need to be signed in with Spotify to use this app,{' '}
+						<Button onClick={onOpen} variant='link'>
+							click here to sign in
+						</Button>
+						.
+					</p>
 				</Alert>
 			)}
 			<SpotifyStatsContent sessionStatus={sessionStatus} />
