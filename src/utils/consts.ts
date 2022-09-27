@@ -8,5 +8,6 @@ export const SKELETON_STATS: StatsEntry[] = [...Array(50).keys()].map((i) => ({
 	title: 'filler',
 	subTitle: 'filler',
 	image: 'filler',
+	href: '/',
 	isSkeleton: true,
 }));
