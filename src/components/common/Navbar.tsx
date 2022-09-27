@@ -3,7 +3,7 @@ interface Props {}
 
 const Navbar: NextPageWithLayout<Props> = () => {
 	return (
-		<nav className='w-full bg-green-500'>
+		<nav className='w-full bg-green-500 shadow'>
 			<div className='flex items-center max-w-7xl px-[40px] py-[24px] mx-auto space-x-12'>
 				<a href='https://spencerpauly.com/'>
 					<img src='/static/content/spencerpauly-logo.png' className='w-auto h-[42px]' />

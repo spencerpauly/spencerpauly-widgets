@@ -14,6 +14,7 @@ import {
 	ModalOverlay,
 } from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
+import { useEffect } from 'react';
 import { FaSpotify } from 'react-icons/fa';
 import SpotifyStatsContent from './SpotifyStatsContent';
 interface Props {}
@@ -25,6 +26,11 @@ interface Props {
 const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
+	useEffect(() => {
+		if (sessionStatus === 'unauthenticated') {
+			onOpen();
+		}
+	}, [sessionStatus]);
 	return (
 		<>
 			<Modal size='xl' isCentered isOpen={isOpen} onClose={onClose}>
@@ -32,7 +38,7 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 				<ModalContent className='mx-4'>
 					<ModalCloseButton />
 					<ModalHeader className='text-4xl'>
-						Connect Spotify <FaSpotify className='inline text-lg text-green-600 align-text-top' />
+						Connect Spotify <FaSpotify className='inline text-lg text-green-500 align-text-top' />
 					</ModalHeader>
 					<ModalBody>
 						<div className='pb-4'>
@@ -55,8 +61,10 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
+			<Navbar />
+
 			{sessionStatus === 'unauthenticated' && (
-				<Alert className='break-words' status='warning'>
+				<Alert className='break-words' status='info'>
 					<AlertIcon />
 					<p>
 						You need to be signed in with Spotify to use this app,{' '}
@@ -67,7 +75,6 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 					</p>
 				</Alert>
 			)}
-			<Navbar />
 			<SpotifyStatsContent sessionStatus={sessionStatus} />
 		</>
 	);
