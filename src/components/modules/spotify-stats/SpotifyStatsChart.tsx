@@ -21,7 +21,7 @@ interface Props {
 
 const TopChartItemDetails = ({ stats }: Props) => {
 	if (!stats || !stats[0] || stats[0].isSkeleton) {
-		return;
+		return null;
 	}
 	return (
 		<div className='flex items-center space-x-6'>

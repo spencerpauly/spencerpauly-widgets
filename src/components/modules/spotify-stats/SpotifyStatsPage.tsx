@@ -1,3 +1,4 @@
+import Navbar from '@/common/Navbar';
 import { NextPageWithLayout } from '@/types/page';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/hooks';
@@ -66,6 +67,7 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 					</p>
 				</Alert>
 			)}
+			<Navbar />
 			<SpotifyStatsContent sessionStatus={sessionStatus} />
 		</>
 	);

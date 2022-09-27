@@ -2,7 +2,7 @@ import { fetchTopItemsForUser, QuerySettings } from '@/lib/frontend/spotify';
 import { NextPageWithLayout } from '@/types/page';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/hooks';
-import { Heading, Link } from '@chakra-ui/layout';
+import { Heading } from '@chakra-ui/layout';
 import { Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup } from '@chakra-ui/menu';
 import { useBreakpointValue } from '@chakra-ui/react';
 import { signOut } from 'next-auth/react';
@@ -45,7 +45,7 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 
 	return (
 		<div className='container max-w-4xl px-4 pb-4 mx-auto'>
-			<div className='flex flex-col items-center justify-center pt-24 pb-4 '>
+			<div className='flex flex-col items-center justify-center pt-12 pb-4 lg:pt-24 '>
 				<h1 className='text-4xl font-bold lg:text-7xl'>My Spotify Top 50</h1>
 				<div className='py-4'>
 					<Menu isOpen={typeDropdown.isOpen} onClose={typeDropdown.onClose}>
@@ -110,7 +110,19 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 						<Heading as='h3' size='xl' className='pb-4'>
 							Like what you see?
 						</Heading>
+
 						<div>
+							The fun doesn't need to end here. Coming soon you'll be able to save these songs into
+							a personal spotify playlist.
+						</div>
+						<div className='py-4'>Stay up to date on new features by...</div>
+
+						<a href='https://twitter.com/SpencerPauly' target='_blank' rel='nofollow'>
+							<Button colorScheme='twitter' rightIcon={<FaTwitter />}>
+								Following me on Twitter
+							</Button>
+						</a>
+						{/* <div>
 							The fun doesn't need to end here. You can{' '}
 							<Link color='teal.500'>save these songs into a personal spotify playlist</Link>.
 						</div>
@@ -118,7 +130,7 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 
 						<Button colorScheme='twitter' rightIcon={<FaTwitter />}>
 							Sharing on Twitter
-						</Button>
+						</Button> */}
 					</div>
 				</div>
 			</div>
