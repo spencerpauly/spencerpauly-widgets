@@ -5,7 +5,7 @@ import { getSession } from 'next-auth/react';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession({ req });
 
-	const accessToken = (session?.token as any).accessToken;
+	const accessToken = (session?.token as any)?.accessToken;
 
 	if (!accessToken) {
 		return res.status(400).json({ message: 'Error' });
