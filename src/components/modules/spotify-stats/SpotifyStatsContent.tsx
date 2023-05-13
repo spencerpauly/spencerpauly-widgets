@@ -32,7 +32,7 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 		timeRange: 'long_term',
 	});
 
-	const { data, isLoading, isError } = useQuery(['top-items-for-user', querySettings], () =>
+	const { data } = useQuery(['top-items-for-user', querySettings], () =>
 		fetchTopItemsForUser(querySettings)
 	);
 
@@ -46,13 +46,14 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 	return (
 		<div className='container max-w-4xl px-4 pb-4 mx-auto'>
 			<div className='flex flex-col items-center justify-center pt-12 pb-4 lg:pt-24 '>
-				<h1 className='text-4xl font-bold lg:text-7xl'>My Spotify Top 50</h1>
+				<h1 className='text-4xl font-bold lg:text-7xl'>Your Spotify Top 50</h1>
 				<div className='py-4'>
 					<Menu isOpen={typeDropdown.isOpen} onClose={typeDropdown.onClose}>
 						<MenuButton
 							size={menuButtonSize}
 							onClick={typeDropdown.onOpen}
 							as={Button}
+							variant='outline'
 							rightIcon={<FaChevronDown />}
 						>
 							{TYPE_DISPLAY_VALUE[querySettings.type]}
@@ -74,6 +75,7 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 							size={menuButtonSize}
 							onClick={timeRangeDropdown.onOpen}
 							as={Button}
+							variant='outline'
 							rightIcon={<FaChevronDown />}
 						>
 							{TIME_RANGE_DISPLAY_VALUE[querySettings.timeRange]}
@@ -97,7 +99,7 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 					<div className='w-1 h-12 bg-green-400' />
 				</div>
 			</div>
-			<SpotifyStatsChart stats={data} />
+			<SpotifyStatsChart stats={data} querySettings={querySettings} />
 			<div className='grid grid-cols-12'>
 				<div className='hidden col-span-5 py-4 ml-24 mr-8 lg:block'>
 					<div className='w-full'>

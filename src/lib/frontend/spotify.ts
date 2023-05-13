@@ -43,11 +43,13 @@ const convertTracksToStats = (tracks: any) => {
 };
 
 const convertArtistsToStats = (artists: any) => {
+	console.log(artists);
 	const stats: StatsEntry[] = artists.map((item: any, index: number) => ({
 		id: item.id,
 		rank: index + 1,
 		title: item.name,
-		subTitle: formatNumberForDisplay(item.followers.total) + ' followers',
+		subTitle:
+			item.followers.total === 0 ? '' : formatNumberForDisplay(item.followers.total) + ' followers',
 		image: item.id !== '5K4W6rqBFWDnAN6FQUkS6x' ? item.images[0].url : '/static/content/ye.jpeg',
 		href: item.external_urls.spotify,
 	}));
