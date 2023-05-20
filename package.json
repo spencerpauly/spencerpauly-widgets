@@ -52,6 +52,7 @@
 		"graphql": "^15.7.2",
 		"graphql-codegen": "^0.4.0",
 		"html-to-image": "^1.10.8",
+		"iconsax-react": "^0.0.8",
 		"isomorphic-unfetch": "^3.0.0",
 		"isomorphic-ws": "^4.0.1",
 		"javascript-time-ago": "^2.3.9",

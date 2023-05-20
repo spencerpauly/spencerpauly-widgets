@@ -27,6 +27,19 @@ const theme = extendTheme({
 		Link: { baseStyle: { _focus: { boxShadow: 'none' } } },
 		Button: { baseStyle: { _focus: { boxShadow: 'none' } } },
 	},
+	colors: {
+		brand: {
+			100: '#dcfce7',
+			200: '#bbf7d0',
+			300: '#86efac',
+			400: '#4ade80',
+			500: '#22c55e',
+			600: '#16a34a',
+			700: '#15803d',
+			800: '#166534',
+			900: '#14532d',
+		},
+	},
 });
 
 const progress = new ProgressBar({

@@ -7,3 +7,10 @@ export const formatTimeRange = (type: ITimeRange) => {
 	if (type === 'long_term') return '2+ Years';
 	return '2+ Years';
 };
+
+export const formatTimeRangeExplicit = (type: ITimeRange) => {
+	if (type === 'short_term') return 'Short Term';
+	if (type === 'medium_term') return 'Medium Term';
+	if (type === 'long_term') return 'Long Term';
+	return 'Long Term';
+};

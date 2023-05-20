@@ -87,7 +87,7 @@ const SpotifyStatsPage: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 					</Alert>
 				</div>
 			)}
-			<SpotifyStatsContent sessionStatus={sessionStatus} />
+			<SpotifyStatsContent />
 		</>
 	);
 };

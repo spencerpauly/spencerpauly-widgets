@@ -1,8 +1,6 @@
-import { QuerySettings } from '@/lib/frontend/spotify';
 import { TopChartItemDetails } from '@/modules/spotify-stats/stats-chart/TopChartItemDetails';
 import { NextPageWithLayout } from '@/types/page';
 import { SKELETON_STATS } from '@/utils/consts';
-import { Heading, Link } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
 import React from 'react';
 import StatShowcaseItem from './stats-chart/StatShowcaseItem';
@@ -19,12 +17,12 @@ export interface StatsEntry {
 }
 interface Props {
 	stats?: StatsEntry[];
-	querySettings: QuerySettings;
+	isArtistView: boolean;
 }
 
 const SpotifyStatsChart: NextPageWithLayout<Props> = ({
 	stats = SKELETON_STATS,
-	querySettings,
+	isArtistView,
 }: Props) => {
 	return (
 		<div>
@@ -40,7 +38,7 @@ const SpotifyStatsChart: NextPageWithLayout<Props> = ({
 						<Skeleton className='w-full h-full' borderRadius={16} />
 					)}
 					<div className='block lg:hidden'>
-						<TopChartItemDetails stats={stats} isArtistView={querySettings.type === 'artists'} />
+						<TopChartItemDetails stats={stats} isArtistView={isArtistView} />
 					</div>
 				</div>
 				{/* #2 - #5 */}
@@ -51,7 +49,7 @@ const SpotifyStatsChart: NextPageWithLayout<Props> = ({
 				</div>
 			</div>
 			<div className='hidden lg:block'>
-				<TopChartItemDetails stats={stats} isArtistView={querySettings.type === 'artists'} />
+				<TopChartItemDetails stats={stats} isArtistView={isArtistView} />
 			</div>
 
 			<div className='pt-4 mx-8 lg:mx-24'>

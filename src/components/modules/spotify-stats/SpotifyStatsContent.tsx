@@ -1,41 +1,54 @@
-import { fetchTopItemsForUser } from '@/lib/frontend/spotify';
+import { createPlaylistForUser, fetchTopItemsForUser } from '@/lib/frontend/spotify';
 import { formatQueryType, IQueryType, queryTypes } from '@/lib/shared/types/IQueryType';
-import { ISessionStatus } from '@/lib/shared/types/ISessionStatus';
 import { formatTimeRange, ITimeRange, timeRanges } from '@/lib/shared/types/ITimeRange';
-import { NextPageWithLayout } from '@/types/page';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/hooks';
-import { Heading } from '@chakra-ui/layout';
 import { Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup } from '@chakra-ui/menu';
 import { useBreakpointValue } from '@chakra-ui/react';
 import { signOut } from 'next-auth/react';
 import React, { useState } from 'react';
-import { FaChevronDown, FaTwitter } from 'react-icons/fa';
-import { useQuery } from 'react-query';
-import SpotifyStatsChart from './SpotifyStatsChart';
-
+import { FaChevronDown } from 'react-icons/fa';
+import { useMutation, useQuery } from 'react-query';
+import SpotifyStatsChart, { StatsEntry } from './SpotifyStatsChart';
+import { CreatePlaylistCard } from '@/modules/spotify-stats/CreatePlaylistCard';
 interface QuerySettings {
 	type: IQueryType;
 	timeRange: ITimeRange;
+	playlistUrl: string | null;
 }
 
-interface Props {
-	sessionStatus: ISessionStatus;
-}
-
-const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
+const SpotifyStatsContent = () => {
 	const [querySettings, setQuerySettings] = useState<QuerySettings>({
 		type: 'tracks',
 		timeRange: 'long_term',
+		playlistUrl: null,
 	});
 
 	const { data } = useQuery(['top-items-for-user', querySettings], () =>
 		fetchTopItemsForUser(querySettings.type, querySettings.timeRange)
 	);
 
-	// const { data } = useQuery(['create-playlist-for-user', querySettings], () =>
-	// 	fetchTopItemsForUser(querySettings.type, querySettings.timeRange)
-	// );
+	const createPlaylistMutation = useMutation(
+		(tracks: StatsEntry[]) => createPlaylistForUser(tracks, querySettings.timeRange),
+		{
+			onSuccess: (res: any) => {
+				if (res?.response?.playlist?.external_urls?.spotify) {
+					setQuerySettings((current) => ({
+						...current,
+						playlistUrl: res.response.playlist.external_urls.spotify,
+					}));
+				}
+			},
+		}
+	);
+
+	const isAbleToCreatePlaylist = querySettings.type === 'tracks' && data;
+
+	const handleCreatePlaylist = () => {
+		if (querySettings.type === 'artists') return;
+		if (!data) return;
+		createPlaylistMutation.mutate(data);
+	};
 
 	const typeDropdown = useDisclosure();
 	const timeRangeDropdown = useDisclosure();
@@ -62,7 +75,9 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 						<MenuList>
 							<MenuOptionGroup
 								type='radio'
-								onChange={(e: any) => setQuerySettings((cur) => ({ ...cur, type: e }))}
+								onChange={(e: any) =>
+									setQuerySettings((cur) => ({ ...cur, type: e, playlistUrl: null }))
+								}
 							>
 								{queryTypes.map((value) => (
 									<MenuItemOption value={value}>{formatQueryType(value)}</MenuItemOption>
@@ -84,7 +99,9 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 						<MenuList>
 							<MenuOptionGroup
 								type='radio'
-								onChange={(e: any) => setQuerySettings((cur) => ({ ...cur, timeRange: e }))}
+								onChange={(e: any) =>
+									setQuerySettings((cur) => ({ ...cur, timeRange: e, playlistUrl: null }))
+								}
 							>
 								{timeRanges.map((value) => (
 									<MenuItemOption value={value}>{formatTimeRange(value)}</MenuItemOption>
@@ -100,43 +117,25 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 					<div className='w-1 h-12 bg-green-400' />
 				</div>
 			</div>
-			<SpotifyStatsChart stats={data} querySettings={querySettings} />
-			<div className='grid grid-cols-12'>
-				<div className='hidden col-span-5 py-4 ml-24 mr-8 lg:block'>
-					<div className='w-full'>
-						<div className='w-1 h-32 bg-green-400' />
+			<SpotifyStatsChart stats={data} isArtistView={querySettings.type === 'artists'} />
+			{isAbleToCreatePlaylist && (
+				<div className='grid grid-cols-12'>
+					<div className='hidden col-span-5 py-4 ml-24 mr-8 lg:block'>
+						<div className='w-full'>
+							<div className='w-1 h-32 bg-green-400' />
+						</div>
+						<div className='w-full h-1 bg-green-400 '></div>
 					</div>
-					<div className='w-full h-1 bg-green-400 '></div>
-				</div>
-				<div className='w-full col-span-12 pt-12 lg:col-span-7'>
-					<div className='p-8 bg-white border rounded-lg shadow-lg'>
-						<Heading as='h3' size='xl' className='pb-4'>
-							Like what you see?
-						</Heading>
-
-						<div>
-							The fun doesn't need to end here. Coming soon you'll be able to save these songs into
-							a personal spotify playlist.
-						</div>
-						<div className='py-4'>Stay up to date on new features by...</div>
-
-						<a href='https://twitter.com/SpencerPauly' target='_blank' rel='nofollow'>
-							<Button colorScheme='twitter' rightIcon={<FaTwitter />}>
-								Following me on Twitter
-							</Button>
-						</a>
-						{/* <div>
-							The fun doesn't need to end here. You can{' '}
-							<Link color='teal.500'>save these songs into a personal spotify playlist</Link>.
-						</div>
-						<div className='py-4'>Or, support this app by...</div>
-
-						<Button colorScheme='twitter' rightIcon={<FaTwitter />}>
-							Sharing on Twitter
-						</Button> */}
+					<div className='w-full col-span-12 pt-12 lg:col-span-7'>
+						<CreatePlaylistCard
+							onClick={handleCreatePlaylist}
+							isLoading={createPlaylistMutation.isLoading}
+							playlistUrl={querySettings.playlistUrl}
+						/>
 					</div>
 				</div>
-			</div>
+			)}
+
 			<div className='flex justify-center pt-24 pb-8'>
 				<Button variant='link' onClick={() => signOut()}>
 					Sign out of spotify
