@@ -1,4 +1,7 @@
-import { fetchTopItemsForUser, QuerySettings } from '@/lib/frontend/spotify';
+import { fetchTopItemsForUser } from '@/lib/frontend/spotify';
+import { formatQueryType, IQueryType, queryTypes } from '@/lib/shared/types/IQueryType';
+import { ISessionStatus } from '@/lib/shared/types/ISessionStatus';
+import { formatTimeRange, ITimeRange, timeRanges } from '@/lib/shared/types/ITimeRange';
 import { NextPageWithLayout } from '@/types/page';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/hooks';
@@ -11,19 +14,13 @@ import { FaChevronDown, FaTwitter } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import SpotifyStatsChart from './SpotifyStatsChart';
 
-enum TIME_RANGE_DISPLAY_VALUE {
-	short_term = 'Month',
-	medium_term = '6 Months',
-	long_term = '2+ Years',
-}
-
-enum TYPE_DISPLAY_VALUE {
-	tracks = 'Tracks',
-	artists = 'Artists',
+interface QuerySettings {
+	type: IQueryType;
+	timeRange: ITimeRange;
 }
 
 interface Props {
-	sessionStatus: 'authenticated' | 'unauthenticated' | 'loading';
+	sessionStatus: ISessionStatus;
 }
 
 const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
@@ -33,8 +30,12 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 	});
 
 	const { data } = useQuery(['top-items-for-user', querySettings], () =>
-		fetchTopItemsForUser(querySettings)
+		fetchTopItemsForUser(querySettings.type, querySettings.timeRange)
 	);
+
+	// const { data } = useQuery(['create-playlist-for-user', querySettings], () =>
+	// 	fetchTopItemsForUser(querySettings.type, querySettings.timeRange)
+	// );
 
 	const typeDropdown = useDisclosure();
 	const timeRangeDropdown = useDisclosure();
@@ -56,15 +57,15 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 							variant='outline'
 							rightIcon={<FaChevronDown />}
 						>
-							{TYPE_DISPLAY_VALUE[querySettings.type]}
+							{formatQueryType(querySettings.type)}
 						</MenuButton>
 						<MenuList>
 							<MenuOptionGroup
 								type='radio'
 								onChange={(e: any) => setQuerySettings((cur) => ({ ...cur, type: e }))}
 							>
-								{Object.entries(TYPE_DISPLAY_VALUE).map(([key, value]) => (
-									<MenuItemOption value={key}>{value}</MenuItemOption>
+								{queryTypes.map((value) => (
+									<MenuItemOption value={value}>{formatQueryType(value)}</MenuItemOption>
 								))}
 							</MenuOptionGroup>
 						</MenuList>
@@ -78,15 +79,15 @@ const SpotifyStatsContent: NextPageWithLayout<Props> = ({ sessionStatus }) => {
 							variant='outline'
 							rightIcon={<FaChevronDown />}
 						>
-							{TIME_RANGE_DISPLAY_VALUE[querySettings.timeRange]}
+							{formatTimeRange(querySettings.timeRange)}
 						</MenuButton>
 						<MenuList>
 							<MenuOptionGroup
 								type='radio'
 								onChange={(e: any) => setQuerySettings((cur) => ({ ...cur, timeRange: e }))}
 							>
-								{Object.entries(TIME_RANGE_DISPLAY_VALUE).map(([key, value]) => (
-									<MenuItemOption value={key}>{value}</MenuItemOption>
+								{timeRanges.map((value) => (
+									<MenuItemOption value={value}>{formatTimeRange(value)}</MenuItemOption>
 								))}
 							</MenuOptionGroup>
 						</MenuList>
